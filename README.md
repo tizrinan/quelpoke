@@ -15,9 +15,9 @@ QuelPoke est une application web simple développée en Go qui permet aux utilis
 
     License
 
-: Entrez le nom d'un Pokémon pour afficher ses informations.
+Entrez le nom d'un Pokémon pour afficher ses informations.
 
-: L'application utilise l'API officielle pour récupérer les données sur les Pokémon.
+L'application utilise l'API officielle pour récupérer les données sur les Pokémon.
 
     : Une interface utilisateur simple et intuitive pour afficher les résultats.
 
