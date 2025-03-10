@@ -19,13 +19,8 @@ Entrez le nom d'un Pokémon pour afficher ses informations.
 
 L'application utilise l'API officielle pour récupérer les données sur les Pokémon.
 
-    : Une interface utilisateur simple et intuitive pour afficher les résultats.
-
-:
-
-bash
-git clone https://github.com/tizrinan/quelpoke.git
-
+    bash
+    git clone https://github.com/tizrinan/quelpoke.git.
 :
 
 bash
