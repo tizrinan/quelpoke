@@ -24,7 +24,7 @@ QuelPoke est une application web simple développée en Go qui permet aux utilis
 :
 
 bash
-git clone https://github.com/votre_nom_utilisateur/quel_poke.git
+git clone https://github.com/tizrinan/quelpoke.git
 
 :
 
@@ -45,4 +45,4 @@ Pour contribuer à ce projet, veuillez suivre ces étapes :
 
 .
 
-
+a venir
