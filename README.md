@@ -9,9 +9,6 @@ QuelPoke est une application web simple développée en Go qui permet aux utilis
 
     Utilisation
 
-    Contribuer
-
-    License
 
 Entrez le nom d'un Pokémon pour afficher ses informations.
 
@@ -19,23 +16,20 @@ L'application utilise l'API officielle pour récupérer les données sur les Pok
 
     bash
     git clone https://github.com/tizrinan/quelpoke.git.
-:
 
-bash
-go get -u github.com/lib/pq
-go get -u golang.org/x/crypto/bcrypt
-
-:
-
+    bash 
+    go get -u golang.org/x/crypto/bcrypt 
+    go get -u github.com/lib/pq 
+    
     bash
     go run main.go
 
-    Accédez à l'application via votre navigateur à l'adresse http://localhost:8080.
+Accédez à l'application via votre navigateur à l'adresse http://localhost:8080.
 
-    Entrez le nom d'un Pokémon dans le champ de recherche pour afficher ses informations.
+Entrez le nom d'un Pokémon dans le champ de recherche pour afficher ses informations.
+
 
 Pour contribuer à ce projet, veuillez suivre ces étapes :
 
 .
-
 a venir
