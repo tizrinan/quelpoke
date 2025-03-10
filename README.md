@@ -1,7 +1,5 @@
 # quelpoke
 
-Pour un README pour un projet Go, voici un exemple de contenu que vous pouvez utiliser :
-QuelPoke
 
 QuelPoke est une application web simple développée en Go qui permet aux utilisateurs de découvrir des Pokémon en fonction de leur nom. L'application utilise l'API Pokémon pour récupérer les informations sur les Pokémon.
 
