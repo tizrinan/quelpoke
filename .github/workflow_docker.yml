@@ -1,4 +1,4 @@
-name: Docker Build and Push
+name: CI/CD Pipeline for Docker on GCP
 
 # Déclencheur du workflow
 on:
@@ -11,27 +11,56 @@ on:
 
 # Environnement d'exécution
 jobs:
-  build-and-push:
-    runs-on: ubuntu-latest  # Utilise une machine virtuelle Ubuntu
+  ci:
+    runs-on: ubuntu-latest
 
     steps:
       # Étape 1 : Checkout du code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Étape 2 : Connexion à Docker Hub
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}  # Utilise un secret GitHub
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}     # Utilise un secret GitHub
-
-      # Étape 3 : Construire l'image Docker
+      # Étape 2 : Construire l'image Docker
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/quelpoke:1.0 .
+          docker build -t mon-image:latest .
 
-      # Étape 4 : Pousser l'image Docker vers Docker Hub
-      - name: Push Docker image
+      # Étape 3 : Exécuter les tests
+      - name: Run tests
         run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quelpoke:1.0
+          docker run mon-image:1.2 ./run-tests.sh
+
+  cd:
+    runs-on: ubuntu-latest
+    needs: ci  # Dépend du job CI
+    if: github.ref == 'refs/heads/main'  # Ne s'exécute que sur la branche main
+
+    steps:
+      # Étape 1 : Checkout du code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Étape 2 : Authentification GCP
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.dc7473fc1e6d4db3f00bb18493b94706e4161d10 }}
+
+      # Étape 3 : Configurer Docker pour utiliser gcloud comme helper
+      - name: Set up Docker
+        run: |
+          gcloud auth configure-docker
+
+      # Étape 4 : Construire et pousser l'image Docker vers Google Artifact Registry
+      - name: Build and push Docker image
+        run: |
+          docker build -t us-central1-docker.pkg.dev/${{ secrets.cs-poc-hpzdycpiqjyvinhrczvlwcn }}/student-hafid/quelpoke:1.0 .
+          docker push us-central1-docker.pkg.dev/${{ secrets.cs-poc-hpzdycpiqjyvinhrczvlwcn }}/student-hafid/quelpoke:1.2
+
+      # Étape 5 : Déployer sur GKE
+      - name: Deploy to GKE
+        uses: google-github-actions/deploy-cloudrun@v1
+        with:
+          service: mon-service
+          image: us-central1-docker.pkg.dev/${{ secrets.cs-poc-hpzdycpiqjyvinhrczvlwcn }}/student-hafid/quelpoke:1.2
+          region: us-central1
+          credentials: ${{ secrets.dc7473fc1e6d4db3f00bb18493b94706e4161d10 }}
