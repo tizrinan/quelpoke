@@ -22,12 +22,12 @@ jobs:
       # Étape 2 : Construire l'image Docker
       - name: Build Docker image
         run: |
-          docker build -t mon-image:latest .
+          docker build -t quelpoke:latest .
 
       # Étape 3 : Exécuter les tests
       - name: Run tests
         run: |
-          docker run mon-image:1.2 ./run-tests.sh
+          docker run quelpoke:1.2 ./run-tests.sh
 
   cd:
     runs-on: ubuntu-latest
@@ -53,14 +53,14 @@ jobs:
       # Étape 4 : Construire et pousser l'image Docker vers Google Artifact Registry
       - name: Build and push Docker image
         run: |
-          docker build -t us-central1-docker.pkg.dev/${{ secrets.cs-poc-hpzdycpiqjyvinhrczvlwcn }}/student-hafid/quelpoke:1.0 .
-          docker push us-central1-docker.pkg.dev/${{ secrets.cs-poc-hpzdycpiqjyvinhrczvlwcn }}/student-hafid/quelpoke:1.2
+          docker build -t europe-west10-docker.pkg.dev/${{ secrets.cs-poc-hpzdycpiqjyvinhrczvlwcn }}/student-hafid/quelpoke:1.0 .
+          docker push europe-west10-docker.pkg.dev/${{ secrets.cs-poc-hpzdycpiqjyvinhrczvlwcn }}/student-hafid/quelpoke:1.2
 
       # Étape 5 : Déployer sur GKE
       - name: Deploy to GKE
         uses: google-github-actions/deploy-cloudrun@v1
         with:
-          service: mon-service
-          image: us-central1-docker.pkg.dev/${{ secrets.cs-poc-hpzdycpiqjyvinhrczvlwcn }}/student-hafid/quelpoke:1.2
-          region: us-central1
+          service: student-hafid
+          image: europe-west10-docker.pkg.dev/${{ secrets.cs-poc-hpzdycpiqjyvinhrczvlwcn }}/student-hafid/quelpoke:1.2
+          region: europe-west10
           credentials: ${{ secrets.dc7473fc1e6d4db3f00bb18493b94706e4161d10 }}
